@@ -160,6 +160,10 @@
 			pins = "gpio64";
 		};
 	};
+
+	hsuart_pins: hsuart-state {
+		pins = "gpio48", "gpio49";
+	};
 };
 
 &blsp1_i2c2 {
