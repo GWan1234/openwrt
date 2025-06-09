@@ -174,6 +174,7 @@
 		reg = <91>;
 		gpio-controller;
 		gpio-ranges = <&aw9523 0 0 16>;
+		reset-gpios = <&tlmm 2 GPIO_ACTIVE_LOW>;
 
 		led_pins: led-pins {
 			pins =
