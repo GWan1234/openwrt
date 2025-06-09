@@ -369,5 +369,5 @@
 &wifi {
 	status = "okay";
 
-	qcom,ath11k-calibration-variant = "TCL HH500V";
+	qcom,ath11k-calibration-variant = "TCL-HH500V";
 };
