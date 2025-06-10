@@ -403,7 +403,7 @@ define Device/tcl_hh500v
 	SOC := ipq8072
 	IMAGES += factory.bin
 	IMAGE/factory.bin := append-ubi | qsdk-ipq-factory-nand
-	DEVICE_PACKAGES := ipq-wifi-tcl_hh500v kmod-ath11k-pci \
+	DEVICE_PACKAGES := ipq-wifi-tcl_hh500v \
 		kmod-usb-serial-option uqmi
 endef
 TARGET_DEVICES += tcl_hh500v
