@@ -184,8 +184,7 @@ platform_do_upgrade() {
 	netgear,sxs80|\
 	netgear,wax218|\
 	netgear,wax620|\
-	netgear,wax630|\
-	tcl,hh500v)
+	netgear,wax630)
 		nand_do_upgrade "$1"
 		;;
 	asus,rt-ax89x)
@@ -262,6 +261,16 @@ platform_do_upgrade() {
 		CI_ROOTPART="rootfs"
 		CI_DATAPART="rootfs_data"
 		emmc_do_upgrade "$1"
+		;;
+	tcl,hh500v)
+		local delay
+
+		delay=$(fw_printenv bootdelay)
+		[ -z "$delay" ] || [ "$delay" -eq "0" ] && \
+			fw_setenv bootdelay 3
+
+		tcl_upgrade_prepare
+		nand_do_upgrade "$1"
 		;;
 	tplink,deco-x80-5g|\
 	tplink,eap620hd-v1|\
