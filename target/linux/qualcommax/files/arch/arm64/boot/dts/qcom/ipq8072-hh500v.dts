@@ -22,7 +22,7 @@
 		serial1 = &blsp1_uart3;
 		/* Aliases as required by u-boot to patch MAC addresses */
 		ethernet3 = &dp4;
-		ethernet5 = &dp6;
+		ethernet5 = &dp6_syn;
 	};
 
 	chosen {
@@ -279,7 +279,7 @@
 		#size-cells = <0>;
 		reg = <0>;
 
-		qcom,package-mode = "qsgmii";
+//		qcom,package-mode = "qsgmii";
 
 		qca8075_3: ethernet-phy@3 {
 			compatible = "ethernet-phy-ieee802.3-c22";
