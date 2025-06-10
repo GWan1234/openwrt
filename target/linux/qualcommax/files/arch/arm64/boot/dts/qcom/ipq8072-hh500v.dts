@@ -173,6 +173,7 @@
 		compatible = "awinic,aw9523-pinctrl";
 		reg = <91>;
 		gpio-controller;
+		#gpio-cells = <2>;
 		gpio-ranges = <&aw9523 0 0 16>;
 		reset-gpios = <&tlmm 2 GPIO_ACTIVE_LOW>;
 
