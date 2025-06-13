@@ -222,6 +222,7 @@ define KernelPackage/pinctrl-aw9523
   DEPENDS:=@GPIO_SUPPORT +kmod-regmap-i2c
   KCONFIG:=CONFIG_PINCTRL_AW9523
   FILES:=$(LINUX_DIR)/drivers/pinctrl/pinctrl-aw9523.ko
+  AUTOLOAD:=$(call AutoLoad,40,pinctrl-aw9523,1)
 endef
 
 define KernelPackage/pinctrl-aw9523/description
