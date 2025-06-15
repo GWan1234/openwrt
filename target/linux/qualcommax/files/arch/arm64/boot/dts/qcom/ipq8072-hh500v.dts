@@ -28,6 +28,36 @@
 		stdout-path = "serial0:115200n8";
 	};
 
+	modem {
+		compatible = "gpio-export";
+		pinctrl-names = "default";
+		pinctrl-0 = <&modem_pins>;
+
+		/* output low = download mode */
+		modem_forcedl {
+			gpio-export,name = "modem_forcedl";
+			gpio-export,output = <1>;
+			gpios = <&tlmm 46 GPIO_ACTIVE_HIGH>;
+		};
+
+		/* output high = power on, output low = no power on after reset */
+		modem-power {
+			gpio-export,name = "modem_power";
+			gpio-export,output = <1>;
+			gpios = <&tlmm 30 GPIO_ACTIVE_HIGH>;
+		};
+
+		/*
+		 * output low 1s pulse = reset
+		 * sometimes crashes kernel if mhi_pci_generic is active
+		 */
+		modem-reset {
+			gpio-export,name = "modem_reset";
+			gpio-export,output = <1>;
+			gpios = <&tlmm 29 GPIO_ACTIVE_HIGH>;
+		};
+	};
+
 	gpio-poweroff {
 		compatible = "gpio-poweroff";
 		gpios = <&tlmm 20 GPIO_ACTIVE_HIGH>;
@@ -180,6 +210,11 @@
 			drive-strength = <8>;
 			output-high;
 			pins = "gpio29";
+		};
+
+		modem_forcedl {
+			output-high;
+			pins = "gpio46";
 		};
 	};
 
