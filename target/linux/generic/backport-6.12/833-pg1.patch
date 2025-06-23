@@ -1,0 +1,28 @@
+From 29904a40127ca5df120bcbcab444ea725926b075 Mon Sep 17 00:00:00 2001
+From: Vivek Pernamitta <quic_vpernami@quicinc.com>
+Date: Wed, 8 Jan 2025 21:52:07 +0530
+Subject: [PATCH] bus: mhi: host: pci_generic: Enable MSI-X if the endpoint
+ supports
+
+Enable MSI-X if the endpoint supports.
+
+Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
+Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Link: https://lore.kernel.org/r/20250108-msix-v2-1-dc4466922350@quicinc.com
+[mani: added pci_generic prefix to subject]
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+---
+ drivers/bus/mhi/host/pci_generic.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -949,7 +949,7 @@ static int mhi_pci_get_irqs(struct mhi_c
+ 	 */
+ 	mhi_cntrl->nr_irqs = 1 + mhi_cntrl_config->num_events;
+ 
+-	nr_vectors = pci_alloc_irq_vectors(pdev, 1, mhi_cntrl->nr_irqs, PCI_IRQ_MSI);
++	nr_vectors = pci_alloc_irq_vectors(pdev, 1, mhi_cntrl->nr_irqs, PCI_IRQ_MSIX | PCI_IRQ_MSI);
+ 	if (nr_vectors < 0) {
+ 		dev_err(&pdev->dev, "Error allocating MSI vectors %d\n",
+ 			nr_vectors);

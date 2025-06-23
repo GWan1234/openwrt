@@ -1,0 +1,37 @@
+From 098d8374033f323dae87a1d792a3c8911c2cf57f Mon Sep 17 00:00:00 2001
+From: Johan Hovold <johan+linaro@kernel.org>
+Date: Sun, 1 Dec 2024 18:11:20 +0100
+Subject: [PATCH] bus: mhi: host: pci_generic: fix MHI BAR mapping
+
+A recent change converting the MHI pci_generic driver to use
+pcim_iomap_region() failed to update the BAR parameter which is an index
+rather than a mask.
+
+This specifically broke the modem on machines like the Lenovo ThinkPad
+X13s and x1e80100 CRD:
+
+	mhi-pci-generic 0004:01:00.0: failed to map pci region: -22
+	mhi-pci-generic 0004:01:00.0: probe with driver mhi-pci-generic failed with error -22
+
+Fixes: bd23e836423e ("bus: mhi: host: pci_generic: Use pcim_iomap_region() to request and map MHI BAR")
+Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Mayank Rana <quic_mrana@quicinc.com>
+Link: https://lore.kernel.org/r/20241201171120.31616-1-johan+linaro@kernel.org
+---
+ drivers/bus/mhi/host/pci_generic.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -917,7 +917,7 @@ static int mhi_pci_claim(struct mhi_cont
+ 		return err;
+ 	}
+ 
+-	mhi_cntrl->regs = pcim_iomap_region(pdev, 1 << bar_num, pci_name(pdev));
++	mhi_cntrl->regs = pcim_iomap_region(pdev, bar_num, pci_name(pdev));
+ 	if (IS_ERR(mhi_cntrl->regs)) {
+ 		err = PTR_ERR(mhi_cntrl->regs);
+ 		dev_err(&pdev->dev, "failed to map pci region: %d\n", err);
